@@ -1,0 +1,416 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "1c84d640d2e77fb50268d94bc67e2297",
+    "entities": [
+      {
+        "tableName": "screenshot_items",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `content_uri` TEXT NOT NULL, `sha256` TEXT NOT NULL, `display_name` TEXT NOT NULL, `mime_type` TEXT NOT NULL, `size_bytes` INTEGER NOT NULL, `width` INTEGER NOT NULL, `height` INTEGER NOT NULL, `captured_at` INTEGER NOT NULL, `ingested_at` INTEGER NOT NULL, `status` TEXT NOT NULL, `error_message` TEXT, `solved` INTEGER NOT NULL, `no_content` INTEGER NOT NULL, `domain` TEXT, `type` TEXT, `ocr_text` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contentUri",
+            "columnName": "content_uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sha256",
+            "columnName": "sha256",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "display_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mimeType",
+            "columnName": "mime_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sizeBytes",
+            "columnName": "size_bytes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "width",
+            "columnName": "width",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "height",
+            "columnName": "height",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "capturedAt",
+            "columnName": "captured_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ingestedAt",
+            "columnName": "ingested_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "errorMessage",
+            "columnName": "error_message",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "solved",
+            "columnName": "solved",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "noContent",
+            "columnName": "no_content",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "domain",
+            "columnName": "domain",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ocrText",
+            "columnName": "ocr_text",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_screenshot_items_content_uri",
+            "unique": true,
+            "columnNames": [
+              "content_uri"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_screenshot_items_content_uri` ON `${TABLE_NAME}` (`content_uri`)"
+          },
+          {
+            "name": "index_screenshot_items_sha256",
+            "unique": true,
+            "columnNames": [
+              "sha256"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_screenshot_items_sha256` ON `${TABLE_NAME}` (`sha256`)"
+          },
+          {
+            "name": "index_screenshot_items_status",
+            "unique": false,
+            "columnNames": [
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_screenshot_items_status` ON `${TABLE_NAME}` (`status`)"
+          },
+          {
+            "name": "index_screenshot_items_solved",
+            "unique": false,
+            "columnNames": [
+              "solved"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_screenshot_items_solved` ON `${TABLE_NAME}` (`solved`)"
+          },
+          {
+            "name": "index_screenshot_items_no_content",
+            "unique": false,
+            "columnNames": [
+              "no_content"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_screenshot_items_no_content` ON `${TABLE_NAME}` (`no_content`)"
+          },
+          {
+            "name": "index_screenshot_items_captured_at",
+            "unique": false,
+            "columnNames": [
+              "captured_at"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_screenshot_items_captured_at` ON `${TABLE_NAME}` (`captured_at`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "essences",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`screenshot_id` TEXT NOT NULL, `title` TEXT NOT NULL, `summary_bullets_json` TEXT NOT NULL, `topics_json` TEXT NOT NULL, `entities_json` TEXT NOT NULL, `suggested_action` TEXT, `confidence` REAL NOT NULL, `model_name` TEXT NOT NULL, `created_at` INTEGER NOT NULL, PRIMARY KEY(`screenshot_id`), FOREIGN KEY(`screenshot_id`) REFERENCES `screenshot_items`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "screenshotId",
+            "columnName": "screenshot_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "summaryBulletsJson",
+            "columnName": "summary_bullets_json",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "topicsJson",
+            "columnName": "topics_json",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entitiesJson",
+            "columnName": "entities_json",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "suggestedAction",
+            "columnName": "suggested_action",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "confidence",
+            "columnName": "confidence",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "modelName",
+            "columnName": "model_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "screenshot_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_essences_screenshot_id",
+            "unique": true,
+            "columnNames": [
+              "screenshot_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_essences_screenshot_id` ON `${TABLE_NAME}` (`screenshot_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "screenshot_items",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "screenshot_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "searchable_content",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`screenshot_id` TEXT NOT NULL, `title` TEXT NOT NULL, `summary` TEXT NOT NULL, `topics` TEXT NOT NULL, `entities` TEXT NOT NULL, `ocr_text` TEXT NOT NULL, `domain` TEXT NOT NULL, `type` TEXT NOT NULL, PRIMARY KEY(`screenshot_id`))",
+        "fields": [
+          {
+            "fieldPath": "screenshotId",
+            "columnName": "screenshot_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "summary",
+            "columnName": "summary",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "topics",
+            "columnName": "topics",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entities",
+            "columnName": "entities",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ocrText",
+            "columnName": "ocr_text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "domain",
+            "columnName": "domain",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "screenshot_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "ftsVersion": "FTS4",
+        "ftsOptions": {
+          "tokenizer": "simple",
+          "tokenizerArgs": [],
+          "contentTable": "searchable_content",
+          "languageIdColumnName": "",
+          "matchInfo": "FTS4",
+          "notIndexedColumns": [],
+          "prefixSizes": [],
+          "preferredOrder": "ASC"
+        },
+        "contentSyncTriggers": [
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_search_index_BEFORE_UPDATE BEFORE UPDATE ON `searchable_content` BEGIN DELETE FROM `search_index` WHERE `docid`=OLD.`rowid`; END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_search_index_BEFORE_DELETE BEFORE DELETE ON `searchable_content` BEGIN DELETE FROM `search_index` WHERE `docid`=OLD.`rowid`; END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_search_index_AFTER_UPDATE AFTER UPDATE ON `searchable_content` BEGIN INSERT INTO `search_index`(`docid`, `screenshot_id`, `title`, `summary`, `topics`, `entities`, `ocr_text`, `domain`, `type`) VALUES (NEW.`rowid`, NEW.`screenshot_id`, NEW.`title`, NEW.`summary`, NEW.`topics`, NEW.`entities`, NEW.`ocr_text`, NEW.`domain`, NEW.`type`); END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_search_index_AFTER_INSERT AFTER INSERT ON `searchable_content` BEGIN INSERT INTO `search_index`(`docid`, `screenshot_id`, `title`, `summary`, `topics`, `entities`, `ocr_text`, `domain`, `type`) VALUES (NEW.`rowid`, NEW.`screenshot_id`, NEW.`title`, NEW.`summary`, NEW.`topics`, NEW.`entities`, NEW.`ocr_text`, NEW.`domain`, NEW.`type`); END"
+        ],
+        "tableName": "search_index",
+        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`screenshot_id` TEXT NOT NULL, `title` TEXT NOT NULL, `summary` TEXT NOT NULL, `topics` TEXT NOT NULL, `entities` TEXT NOT NULL, `ocr_text` TEXT NOT NULL, `domain` TEXT NOT NULL, `type` TEXT NOT NULL, content=`searchable_content`)",
+        "fields": [
+          {
+            "fieldPath": "screenshotId",
+            "columnName": "screenshot_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "summary",
+            "columnName": "summary",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "topics",
+            "columnName": "topics",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entities",
+            "columnName": "entities",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ocrText",
+            "columnName": "ocr_text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "domain",
+            "columnName": "domain",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "rowid"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1c84d640d2e77fb50268d94bc67e2297')"
+    ]
+  }
+}

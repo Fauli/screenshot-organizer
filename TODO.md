@@ -8,8 +8,8 @@ Follows the phased approach from CLAUDE.md Section 11.
 ## Phase 1: Storage + DB + Feed Skeleton
 
 ### 1.1 Project Setup
-- [ ] Initialize Android project with Kotlin DSL
-- [ ] Configure Gradle with all required dependencies:
+- [x] Initialize Android project with Kotlin DSL
+- [x] Configure Gradle with all required dependencies:
   - Jetpack Compose (Material 3)
   - Room + KSP
   - Hilt
@@ -20,197 +20,200 @@ Follows the phased approach from CLAUDE.md Section 11.
   - kotlinx.serialization
   - Navigation Compose
   - ML Kit Text Recognition
-- [ ] Set up package structure per CLAUDE.md Section 2.2
-- [ ] Configure Hilt application class and modules
+- [x] Set up package structure per CLAUDE.md Section 2.2
+- [x] Configure Hilt application class and modules
 
 ### 1.2 Room Database + Entities
-- [ ] Create `ScreenshotItemEntity` with all fields:
+- [x] Create `ScreenshotItemEntity` with all fields:
   - id, contentUri, sha256, displayName, mimeType, sizeBytes
   - width, height, capturedAt, ingestedAt
   - status (ProcessingStatus enum), errorMessage
   - solved, domain, type, ocrText
-- [ ] Create `EssenceEntity` (1:1 with screenshot):
+- [x] Create `EssenceEntity` (1:1 with screenshot):
   - screenshotId (FK), title, summaryBulletsJson, topicsJson
   - entitiesJson, suggestedAction, confidence, modelName, createdAt
-- [ ] Create `ProcessingStatus` enum: NEW, PROCESSING, DONE, FAILED
-- [ ] Create DAO interfaces:
+- [x] Create `ProcessingStatus` enum: NEW, PROCESSING, DONE, FAILED
+- [x] Create DAO interfaces:
   - `ScreenshotItemDao` (CRUD, paging queries, status updates)
   - `EssenceDao` (insert, query by screenshotId)
-- [ ] Create `AppDatabase` with proper type converters
+- [x] Create `AppDatabase` with proper type converters
 - [ ] Write unit tests for DAOs (in-memory Room)
 
 ### 1.3 Domain Models
-- [ ] Create `domain.model.Essence` data class
-- [ ] Create `ContentType` enum (article, product, social, chat, code, recipe, map, unknown)
-- [ ] Create `EntityRef` data class (kind, name)
-- [ ] Create `SuggestedAction` enum (read, buy, try, reference, decide, idea, unknown)
-- [ ] Create `ScreenshotItem` domain model (mapped from entity)
+- [x] Create `domain.model.Essence` data class
+- [x] Create `ContentType` enum (article, product, social, chat, code, recipe, map, unknown)
+- [x] Create `EntityRef` data class (kind, name)
+- [x] Create `SuggestedAction` enum (read, buy, try, reference, decide, idea, unknown)
+- [x] Create `ScreenshotItem` domain model (mapped from entity)
 
 ### 1.4 DataStore Preferences
-- [ ] Create `PreferencesDataStore` wrapper class
-- [ ] Implement stored preferences:
+- [x] Create `PreferencesDataStore` wrapper class
+- [x] Implement stored preferences:
   - selectedFolderUri: String?
   - aiMode: AiMode enum (OCR_ONLY, CLOUD)
   - hideSolvedByDefault: Boolean (default true)
   - lastScanAt: Long
-- [ ] Create Hilt module for DataStore
+- [x] Create Hilt module for DataStore
 
 ### 1.5 Repository Layer
-- [ ] Create `ScreenshotRepository` interface and implementation:
+- [x] Create `ScreenshotRepository` interface and implementation:
   - Insert/update screenshot items
   - Paging source for feed
   - Query by status
   - Update solved flag
-- [ ] Create `EssenceRepository` interface and implementation
-- [ ] Create `PreferencesRepository` for settings access
+- [x] Create `EssenceRepository` interface and implementation
+- [x] Create `PreferencesRepository` for settings access
 
 ### 1.6 SAF Folder Selection
-- [ ] Create `FolderSelectionUseCase`
-- [ ] Implement SAF document picker intent
-- [ ] Persist URI permission (takePersistableUriPermission)
-- [ ] Store selected URI in DataStore
-- [ ] Handle permission revocation gracefully
-- [ ] Create UI state for "no folder selected" scenario
+- [x] Create `FolderSelectionUseCase`
+- [x] Implement SAF document picker intent
+- [x] Persist URI permission (takePersistableUriPermission)
+- [x] Store selected URI in DataStore
+- [x] Handle permission revocation gracefully
+- [x] Create UI state for "no folder selected" scenario
 
 ### 1.7 Scanner (Manual Trigger)
-- [ ] Create `ingest.scanner.ScreenshotScanner` class
-- [ ] Implement SAF DocumentFile tree traversal
-- [ ] Create `ingest.hashing.FileHasher` (SHA-256)
-- [ ] Extract file metadata: name, size, mimeType, dimensions
-- [ ] Implement date extraction logic (EXIF > MediaStore > lastModified)
-- [ ] Insert new items with status=NEW, skip duplicates by sha256
-- [ ] Create `ScanScreenshotsUseCase`
+- [x] Create `ingest.scanner.ScreenshotScanner` class
+- [x] Implement SAF DocumentFile tree traversal
+- [x] Create `ingest.hashing.FileHasher` (SHA-256)
+- [x] Extract file metadata: name, size, mimeType, dimensions
+- [x] Implement date extraction logic (EXIF > MediaStore > lastModified)
+- [x] Insert new items with status=NEW, skip duplicates by sha256
+- [x] Create `ScanScreenshotsUseCase`
 - [ ] Write unit tests for hashing and dedup logic
 
 ### 1.8 Feed Screen (Skeleton)
-- [ ] Set up Navigation Compose with bottom nav (Feed, Topics, Search, Settings)
-- [ ] Create `FeedViewModel` with Paging integration
-- [ ] Create `FeedUiState` sealed class
-- [ ] Implement `FeedScreen` composable with LazyColumn
-- [ ] Create `ScreenshotCard` composable (thumbnail + basic metadata)
-- [ ] Load thumbnails with Coil (from content URI)
-- [ ] Handle empty state and loading state
-- [ ] Add "Scan Now" FAB or button for manual scan trigger
+- [x] Set up Navigation Compose with bottom nav (Feed, Topics, Search, Settings)
+- [x] Create `FeedViewModel` with Paging integration
+- [x] Create `FeedUiState` sealed class
+- [x] Implement `FeedScreen` composable with LazyColumn
+- [x] Create `ScreenshotCard` composable (thumbnail + basic metadata)
+- [x] Load thumbnails with Coil (from content URI)
+- [x] Handle empty state and loading state
+- [x] Add "Scan Now" FAB or button for manual scan trigger
 
 ### 1.9 Settings Screen (Minimal)
-- [ ] Create `SettingsViewModel`
-- [ ] Create `SettingsScreen` with folder selection button
-- [ ] Show currently selected folder path
-- [ ] Add "Rescan" button
-- [ ] Add placeholder for AI mode toggle (implement later)
+- [x] Create `SettingsViewModel`
+- [x] Create `SettingsScreen` with folder selection button
+- [x] Show currently selected folder path
+- [x] Add "Rescan" button
+- [x] Add placeholder for AI mode toggle (implement later)
 
 ---
 
 ## Phase 2: Background + OCR Extraction
 
 ### 2.1 WorkManager Setup
-- [ ] Create Hilt WorkerFactory
-- [ ] Configure WorkManager in Application class
+- [x] Create Hilt WorkerFactory
+- [x] Configure WorkManager in Application class
 
 ### 2.2 ScanScreenshotsWorker
-- [ ] Create `ScanScreenshotsWorker` extending CoroutineWorker
-- [ ] Reuse scanner logic from Phase 1
-- [ ] Handle missing folder URI permission (return failure)
-- [ ] Return success with count of new items found
-- [ ] Schedule periodic work (every 12 hours default)
+- [x] Create `ScanScreenshotsWorker` extending CoroutineWorker
+- [x] Reuse scanner logic from Phase 1
+- [x] Handle missing folder URI permission (return failure)
+- [x] Return success with count of new items found
+- [x] Schedule periodic work (every 12 hours default)
 
 ### 2.3 ML Kit OCR Integration
-- [ ] Add ML Kit Text Recognition dependency
-- [ ] Create `OcrService` wrapper class
-- [ ] Implement text extraction from Bitmap
-- [ ] Handle failures gracefully (return empty text)
+- [x] Add ML Kit Text Recognition dependency
+- [x] Create `OcrService` wrapper class
+- [x] Implement text extraction from Bitmap
+- [x] Handle failures gracefully (return empty text)
 - [ ] Write unit/instrumented tests for OCR
 
 ### 2.4 EssenceExtractor Interface
-- [ ] Create `domain.ai.EssenceExtractor` interface
-- [ ] Create `ExtractionInput` data class (screenshotId, imageBytes, ocrText)
-- [ ] Create `ExtractionResult` sealed interface (Success, Failure)
+- [x] Create `domain.ai.EssenceExtractor` interface
+- [x] Create `ExtractionInput` data class (screenshotId, imageBytes, ocrText)
+- [x] Create `ExtractionResult` sealed interface (Success, Failure)
 
 ### 2.5 MlKitOcrEssenceExtractor
-- [ ] Implement `MlKitOcrEssenceExtractor`
-- [ ] Domain extraction: regex for URLs/domains in OCR text
-- [ ] Title heuristic: largest text block or first meaningful line
-- [ ] Summary bullets: first 2-3 non-trivial lines
-- [ ] Topics: simple keyword extraction (frequency-based, exclude stopwords)
-- [ ] Set ContentType based on keyword hints (heuristic)
-- [ ] Set low confidence (0.3-0.5) for OCR-only results
+- [x] Implement `MlKitOcrEssenceExtractor`
+- [x] Domain extraction: regex for URLs/domains in OCR text
+- [x] Title heuristic: largest text block or first meaningful line
+- [x] Summary bullets: first 2-3 non-trivial lines
+- [x] Topics: simple keyword extraction (frequency-based, exclude stopwords)
+- [x] Set ContentType based on keyword hints (heuristic)
+- [x] Set low confidence (0.3-0.5) for OCR-only results
 - [ ] Write unit tests with sample OCR outputs
 
 ### 2.6 ProcessScreenshotsWorker
-- [ ] Create `ProcessScreenshotsWorker` extending CoroutineWorker
-- [ ] Fetch batch of NEW items (limit 10)
-- [ ] Mark items as PROCESSING
-- [ ] Load image bytes from content URI
-- [ ] Run OCR extraction
-- [ ] Run EssenceExtractor
-- [ ] Save Essence to database
-- [ ] Update item status to DONE
-- [ ] On failure: set FAILED with errorMessage, allow retry
-- [ ] Chain worker after scan worker
+- [x] Create `ProcessScreenshotsWorker` extending CoroutineWorker
+- [x] Fetch batch of NEW items (limit 10)
+- [x] Mark items as PROCESSING
+- [x] Load image bytes from content URI
+- [x] Run OCR extraction
+- [x] Run EssenceExtractor
+- [x] Save Essence to database
+- [x] Update item status to DONE
+- [x] On failure: set FAILED with errorMessage, allow retry
+- [x] Chain worker after scan worker
 
 ### 2.7 Update Feed with Essence
-- [ ] Update `ScreenshotCard` to show:
+- [x] Update `ScreenshotCard` to show:
   - Title (from essence)
   - Domain badge (if available)
   - Summary bullets (2-3)
   - Topic chips (up to 4)
-- [ ] Handle items without essence (show "Processing..." or metadata only)
-- [ ] Show processing status indicator for in-progress items
+- [x] Handle items without essence (show "Processing..." or metadata only)
+- [x] Show processing status indicator for in-progress items
 
 ### 2.8 Detail Screen
-- [ ] Create `DetailViewModel` (load item + essence by ID)
-- [ ] Create `DetailScreen` composable:
+- [x] Create `DetailViewModel` (load item + essence by ID)
+- [x] Create `DetailScreen` composable:
   - Display full essence (title, all bullets, all topics, entities)
   - Show confidence score
   - Show model name and extraction timestamp
   - "View Original" button
 - [ ] Implement full-screen image viewer (zoom/pan)
-- [ ] Add navigation from feed card to detail
+- [x] Add navigation from feed card to detail
 
 ---
 
 ## Phase 3: Search + Topics + Solved
 
-### 3.1 FTS5 Search Index
-- [ ] Create `search_index` FTS5 virtual table
-- [ ] Define columns: title, summary, entities, topics, ocrText, domain, type
-- [ ] Create `SearchIndexDao` with search query
-- [ ] Create triggers or manual update logic after essence save
+### 3.1 FTS Search Index
+- [x] Create `SearchIndexEntity` FTS4 virtual table
+- [x] Define columns: title, summary, entities, topics, ocrText, domain, type
+- [x] Create `SearchDao` with search query
+- [x] Create `SearchableContentEntity` for content sync
+- [x] Update `ProcessScreenshotsWorker` to index after essence save
 - [ ] Write tests for FTS queries
 
 ### 3.2 Search Screen
-- [ ] Create `SearchViewModel` with query state
-- [ ] Implement debounced search input
-- [ ] Query FTS table and map to domain models
-- [ ] Create `SearchScreen` composable:
+- [x] Create `SearchViewModel` with query state
+- [x] Implement debounced search input (300ms)
+- [x] Query FTS table and map to domain models
+- [x] Create `SearchScreen` composable:
   - Search input field
   - Results list (reuse ScreenshotCard)
   - Empty state / no results state
+- [x] Add solved filter to search ("Include Solved" toggle)
 - [ ] Add date filter (optional for MVP)
 
 ### 3.3 Topics Aggregation
-- [ ] Create DAO query to extract distinct topics with counts
-- [ ] Parse topicsJson and aggregate across all essences
-- [ ] Create `TopicsViewModel`
+- [x] Create `TopicsDao` with distinct topics + counts query
+- [x] Store topics in searchable_content table
+- [x] Create `TopicsRepository` with getTopicsWithCounts()
+- [x] Create `TopicsViewModel`
 
 ### 3.4 Topics Screen
-- [ ] Create `TopicsScreen` composable:
-  - List of topic chips/cards with counts
-  - Tap topic → filtered feed
-- [ ] Create `TopicDetailScreen` or filter feed by topic
-- [ ] Handle topics with special characters
+- [x] Create `TopicsScreen` composable:
+  - List of topic cards with counts
+  - Tap topic → shows screenshots for that topic
+- [x] Implement topic detail view (inline, not separate screen)
+- [x] Add navigation from topic screenshots to detail screen
 
 ### 3.5 Solved Toggle
-- [ ] Add "Mark Solved" action in detail screen
-- [ ] Add "Mark Solved" swipe action or button in feed card
-- [ ] Update repository with toggleSolved method
-- [ ] Update feed query to hide solved by default
-- [ ] Add "Show Solved" toggle in feed (toolbar or filter)
-- [ ] Add solved filter to search
+- [x] Add "Mark Solved" action in detail screen
+- [x] Add "Mark Solved" swipe action or button in feed card
+- [x] Update repository with toggleSolved method
+- [x] Update feed query to hide solved by default
+- [x] Add "Show Solved" toggle in feed (toolbar or filter)
+- [x] Add solved filter to search
 
 ### 3.6 Update Paging Queries
-- [ ] Modify feed paging source to respect hideSolvedByDefault
-- [ ] Ensure solved items can be retrieved when filter toggled
+- [x] Modify feed paging source to respect hideSolvedByDefault
+- [x] Ensure solved items can be retrieved when filter toggled
 - [ ] Test paging with large datasets
 
 ---
@@ -218,7 +221,7 @@ Follows the phased approach from CLAUDE.md Section 11.
 ## Phase 4: Cloud Adapter (Post-MVP)
 
 ### 4.1 Network Layer
-- [ ] Add Retrofit/OkHttp dependencies
+- [x] Add Retrofit/OkHttp dependencies
 - [ ] Create API interface for `/extract` endpoint
 - [ ] Configure timeouts and retry policy
 - [ ] Add network connectivity check
@@ -248,15 +251,15 @@ Follows the phased approach from CLAUDE.md Section 11.
 ## Phase 5: Polish + Error Handling
 
 ### 5.1 Error States & Retry
-- [ ] Show failed items in feed with error indicator
+- [x] Show failed items in feed with error indicator
 - [ ] Add "Retry" button in detail screen for FAILED items
 - [ ] Create use case to retry single item extraction
 - [ ] Handle file-not-found errors (mark as FAILED, show message)
 
 ### 5.2 Permission Handling
-- [ ] Detect revoked folder permission
-- [ ] Show "Re-select folder" prompt
-- [ ] Handle permission denial gracefully
+- [x] Detect revoked folder permission
+- [x] Show "Re-select folder" prompt
+- [x] Handle permission denial gracefully
 
 ### 5.3 First Run Experience
 - [ ] Create onboarding flow:
@@ -269,8 +272,8 @@ Follows the phased approach from CLAUDE.md Section 11.
 ### 5.4 Performance Optimization
 - [ ] Profile feed scrolling with 1000+ items
 - [ ] Optimize thumbnail loading (Coil memory cache)
-- [ ] Ensure stable keys for LazyColumn
-- [ ] Index database columns used in WHERE clauses
+- [x] Ensure stable keys for LazyColumn
+- [x] Index database columns used in WHERE clauses
 
 ### 5.5 Settings Enhancements
 - [ ] Add "Clear database" option (keeps screenshots)
@@ -279,8 +282,8 @@ Follows the phased approach from CLAUDE.md Section 11.
 - [ ] Show storage usage stats
 
 ### 5.6 UI Polish
-- [ ] Implement Material 3 theming
-- [ ] Add dark mode support
+- [x] Implement Material 3 theming
+- [x] Add dark mode support
 - [ ] Add loading skeletons for cards
 - [ ] Add pull-to-refresh on feed
 - [ ] Add animations for solved toggle
@@ -312,14 +315,14 @@ Follows the phased approach from CLAUDE.md Section 11.
 
 All items below must be complete for MVP:
 
-- [ ] User can select folder; persists across restarts
-- [ ] App scans and shows screenshots in timeline
-- [ ] Each item gets essence (OCR-only minimum)
-- [ ] Search works across essence fields
-- [ ] Topic browsing works
-- [ ] Solved items hidden by default but recoverable
-- [ ] Original screenshot viewable from detail screen
-- [ ] App handles failures gracefully
+- [x] User can select folder; persists across restarts
+- [x] App scans and shows screenshots in timeline
+- [x] Each item gets essence (OCR-only minimum)
+- [x] Search works across essence fields
+- [x] Topic browsing works
+- [x] Solved items hidden by default but recoverable
+- [x] Original screenshot viewable from detail screen
+- [x] App handles failures gracefully
 
 ---
 
@@ -327,10 +330,11 @@ All items below must be complete for MVP:
 
 | Question | Decision | Rationale |
 |----------|----------|-----------|
-| Topics: free-form vs normalized? | TBD | |
+| Topics: free-form vs normalized? | Free-form strings | Simpler for MVP; stored space-separated in search index |
 | Dedup: SHA-256 vs perceptual hash? | SHA-256 | Simpler, exact dedup sufficient for MVP |
 | Store OCR text always? | Yes | Needed for search; privacy acceptable for local-only |
 | Cloud mode: API key vs backend? | Backend proxy | Security best practice per spec |
+| FTS version? | FTS4 | Wider device compatibility than FTS5 |
 
 ---
 
