@@ -24,6 +24,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.screenshotvault.ui.screens.about.AboutScreen
 import com.screenshotvault.ui.screens.detail.DetailScreen
 import com.screenshotvault.ui.screens.feed.FeedScreen
 import com.screenshotvault.ui.screens.insights.InsightsScreen
@@ -47,6 +48,7 @@ sealed class Screen(
     data object TopicFilter : Screen("topic-filter/{topicName}", "Topic", Icons.Default.Tag) {
         fun createRoute(topicName: String) = "topic-filter/${java.net.URLEncoder.encode(topicName, "UTF-8")}"
     }
+    data object About : Screen("about", "About", Icons.Default.Home)
 }
 
 private val bottomNavScreens = listOf(
@@ -162,7 +164,16 @@ fun ScreenshotVaultNavHost() {
                 )
             }
             composable(Screen.Settings.route) {
-                SettingsScreen()
+                SettingsScreen(
+                    onNavigateToAbout = {
+                        navController.navigate(Screen.About.route)
+                    },
+                )
+            }
+            composable(Screen.About.route) {
+                AboutScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                )
             }
             composable(
                 route = Screen.Detail.route,
